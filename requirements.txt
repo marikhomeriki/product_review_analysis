@@ -1,1 +1,36 @@
+colorama
+ipdb
+ipykernel
+matplotlib
+numpy
 pandas
+nbresult
+pygeohash
+pytest
+seaborn
+scikit-learn
+yapf
+# Trick to install the version of Tensorflow depending on your processor: darwin == Mac, ARM == M1
+tensorflow-macos==2.10.0; sys_platform == 'darwin' and 'ARM' in platform_version # Mac M-chips
+tensorflow==2.10.0; sys_platform == 'darwin' and 'ARM' not in platform_version # Mac Intel chips
+tensorflow==2.10.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
+
+# prevent bq 3+ db-dtypes package error when running training from bq
+google-cloud-bigquery<3.0.0
+google-cloud-storage
+pyarrow
+
+mlflow~=1.26.1
+
+python-dotenv
+prefect<2
+prefect[viz]
+psycopg2-binary
+
+# API
+fastapi
+pytz
+uvicorn
+# tests
+httpx
+pytest-asyncio
