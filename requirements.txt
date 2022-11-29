@@ -35,3 +35,4 @@ uvicorn
 httpx
 pytest-asyncio
 nltk
+wordcloud
