@@ -43,3 +43,4 @@ sentencepiece
 spacy
 bertopic
 umap-learn
+wordcloud
