@@ -35,3 +35,11 @@ uvicorn
 httpx
 pytest-asyncio
 nltk
+transformers
+wordcloud
+torch
+sentencepiece
+'requests[security]'
+spacy
+bertopic
+umap-learn
