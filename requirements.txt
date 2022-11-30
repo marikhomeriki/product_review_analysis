@@ -44,3 +44,6 @@ spacy
 bertopic
 umap-learn
 wordcloud
+hdbscan
+umap-learn
+sentence-transformers
