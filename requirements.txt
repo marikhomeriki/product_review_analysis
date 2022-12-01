@@ -39,7 +39,7 @@ transformers
 wordcloud
 torch
 sentencepiece
-'requests[security]'
+requests[security]
 spacy
 bertopic
 umap-learn

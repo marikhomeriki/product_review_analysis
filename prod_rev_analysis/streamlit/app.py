@@ -7,12 +7,23 @@ import requests
 from PIL import Image
 import base64
 import pandas as pd
-
+import altair as alt
+import subprocess
+from prod_rev_analysis.ml_logic.test import hello_world
 
 
 st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
 
-st.markdown("<h1 style='text-align: center;'>Product Review Analysis</h1>",unsafe_allow_html= True)
+st.markdown ("""
+    <style>
+    .title{
+        font-size:1006px;
+        }
+    </style>
+    """,unsafe_allow_html=True)
+
+st.title("Product Review Analysis")
+# st.markdown("<h1 style='text-align: center;'>Product Review Analysis</h1>",unsafe_allow_html= True)
 
 with st.container():
     left_col,mid_col,right_col = st.columns(3)
@@ -36,7 +47,7 @@ st.write("We divided the task in this were split within the group:")
 st.write ("Mari:")
 st.write ("Ankur:")
 st.write ("Mathias:")
-st.write ("Arun: Making a sexy ass website :)")
+st.write ("Arun: Creating a Sequential and CNN base model, helped clean data, using Streamline to make this website :)")
 
 st.write("---")
 st.markdown("# Inputting the Data 📊")
@@ -51,15 +62,18 @@ def load_data():
 
 review_data=load_data()
 st.markdown("#### Step 1:")
-url = st.text_input("**`Give the URL link:`**", None)
+url1 = st.text_input("**`Give the URL link:`**", None)
+# path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+# outlet_df = pd.read_csv(path)
 
 st.write("Or")
-company_name = st.text_input("**`Give the CompanyID:`**", None)
+company_id = st.text_input("**`Give the CompanyID:`**", None)
 
 st.markdown("#### Step 2:")
 st.write("**`Get Review From :`**")
 form = st.form("form", clear_on_submit=True)
 with form:
+
     st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
     column1,column2,column3 = form.columns(3)
     with column1:
@@ -77,13 +91,24 @@ with form:
         trust_pilot = column3.checkbox('TrustPilot')
 
     flag = True
-    if (url is None and form is not None) or (url is not None and form is None):
+    if (url1 is None and form is not None) or (url1 is not None and form is None):
+        flag = True
+    elif (company_id is None and form is not None) or (company_id is not None and form is None):
         flag = True
     else:
         flag=False
 
     submit = form.form_submit_button("Submit Now", disabled=flag)
     st.info("**Choose an option using the boxes.**")
+
+    if submit:
+        output = hello_world()
+        st.write(yelp, output)
+
+
+bug_severity = st.slider("**`Number of Reviews :`**", 0, 1000, step=50)
+
+st.write('---')
 
 c1,c2,c3 = st.columns(3)
 with c2:
@@ -100,6 +125,18 @@ with c2:
     """
     st.markdown(button_style,unsafe_allow_html=True)
 
+
+source = pd.DataFrame({
+        "Price ($)": [10, 15, 20],
+        "Month": ["January", "February", "March"]
+      })
+st.write("---")
+bar_chart = alt.Chart(source).mark_bar().encode(
+    x="sum(Price ($)):Q",
+    y=alt.Y("Month:N", sort="-x")
+    )
+
+st.altair_chart(bar_chart, use_container_width=True)
 # if url is None:
 #     "You missed out information"
 # elif form is None:
