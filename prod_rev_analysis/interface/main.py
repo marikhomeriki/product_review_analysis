@@ -4,6 +4,8 @@ import pandas as pd
 
 from colorama import Fore, Style
 
+
+
 # from taxifare.ml_logic.data import clean_data, get_chunk, save_chunk
 # from taxifare.ml_logic.model import initialize_model, compile_model, train_model, evaluate_model
 # from taxifare.ml_logic.params import CHUNK_SIZE, DATASET_SIZE, VALIDATION_DATASET_SIZE
