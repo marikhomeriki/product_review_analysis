@@ -39,6 +39,7 @@ transformers
 wordcloud
 torch
 sentencepiece
+requests[security]
 spacy
 bertopic
 umap-learn
