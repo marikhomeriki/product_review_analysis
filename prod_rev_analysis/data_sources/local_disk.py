@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from colorama import Fore, Style
-from product_review_analysis.ml_logic.params import LOCAL_DATA_PATH
+from prod_rev_analysis.ml_logic.params import LOCAL_DATA_PATH
 
 def get_pandas_chunk(path: str,
                      index: int,
