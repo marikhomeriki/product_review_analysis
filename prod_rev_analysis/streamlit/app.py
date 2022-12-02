@@ -9,7 +9,9 @@ import base64
 import pandas as pd
 import altair as alt
 import subprocess
-from prod_rev_analysis.ml_logic.test import hello_world
+from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+import webbrowser
+
 
 
 st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
@@ -28,7 +30,8 @@ st.title("Product Review Analysis")
 with st.container():
     left_col,mid_col,right_col = st.columns(3)
     with left_col:
-        st.header("By Mariami Khomeriki, Ankur Kaushal, Mathias Freisleben, Arun Appulingam")
+        st.header("By Mariami Khomeriki, Ankur Kaushal, Mathias Freisleben\
+            , Arun Appulingam")
 
     with right_col:
         file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
@@ -53,17 +56,18 @@ st.write("---")
 st.markdown("# Inputting the Data 📊")
 st.sidebar.markdown("# Page 2: 📊")
 
-data_url=('/Users/arun._.appulingam/code/marikhomeriki/product_review_analysis/raw_data/train.csv')
-@st.cache(persist=True)
+# data_url=('/Users/arun._.appulingam/code/marikhomeriki/product_review_analysis/raw_data/train.csv')
+# @st.cache(persist=True)
 
-def load_data():
-    data=pd.read_csv(data_url)
-    return data
+# def load_data():
+#     data=pd.read_csv(data_url)
+#     return data
 
-review_data=load_data()
+# review_data=load_data()
 st.markdown("#### Step 1:")
-url1 = st.text_input("**`Give the URL link:`**", None)
-# path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
+url = st.text_input("**`Give the URL link:`**", None)
+
+# path = ''
 # outlet_df = pd.read_csv(path)
 
 st.write("Or")
@@ -91,19 +95,22 @@ with form:
         trust_pilot = column3.checkbox('TrustPilot')
 
     flag = True
-    if (url1 is None and form is not None) or (url1 is not None and form is None):
-        flag = True
-    elif (company_id is None and form is not None) or (company_id is not None and form is None):
+    if (url is not None) and ((google and not yelp and not trust_pilot)\
+        or (not google and yelp and not trust_pilot) or (not google and not yelp and trust_pilot)):
         flag = True
     else:
-        flag=False
-
-    submit = form.form_submit_button("Submit Now", disabled=flag)
+        flag = False
+    st.write("#Please fill in missing information")
+    submit = form.form_submit_button("Submit Now", disabled=False)
     st.info("**Choose an option using the boxes.**")
 
     if submit:
-        output = hello_world()
+        output = get_data_yelp(url)
         st.write(yelp, output)
+        if 'https://www.yelp.com' in url:
+            webbrowser.open_new_tab(url)
+        else:
+            st.write("Not a Yelp file")
 
 
 bug_severity = st.slider("**`Number of Reviews :`**", 0, 1000, step=50)
@@ -112,7 +119,7 @@ st.write('---')
 
 c1,c2,c3 = st.columns(3)
 with c2:
-    st.button("GIVE ME ANALYSIS")
+    st.button("Upload the CSV file")
     button_style = """
     <style>
     .stButton > button {
