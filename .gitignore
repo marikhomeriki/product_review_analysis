@@ -1,8 +1,11 @@
 .env
 .ipynb_checkpoints
 __pycache__
+<<<<<<< HEAD
 notebooks
 .DS_Store
 notebooks/integrated_datasets
 notebooks/Y
 CNN_model
+=======
+>>>>>>> master

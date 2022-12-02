@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # from taxifare.ml_logic.params import (COLUMN_NAMES_RAW,
 #                                             DTYPES_RAW_OPTIMIZED,
 #                                             DTYPES_RAW_OPTIMIZED_HEADLESS,
@@ -48,6 +49,8 @@ def clean_data(list) -> np.ndarray:
 
     return df_token_pad
 =======
+=======
+>>>>>>> master
 from taxifare.ml_logic.params import (COLUMN_NAMES_RAW,
                                             DTYPES_RAW_OPTIMIZED,
                                             DTYPES_RAW_OPTIMIZED_HEADLESS,
@@ -91,4 +94,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master

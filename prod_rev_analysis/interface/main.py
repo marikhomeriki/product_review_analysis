@@ -4,9 +4,12 @@ import pandas as pd
 
 from colorama import Fore, Style
 <<<<<<< HEAD
+<<<<<<< HEAD
 from prod_rev_analysis.ml_logic.registry import load_model
 
 from prod_rev_analysis.ml_logic.data import load_data, clean_data
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 
@@ -17,6 +20,7 @@ from prod_rev_analysis.ml_logic.data import load_data, clean_data
 # from taxifare.ml_logic.params import CHUNK_SIZE, DATASET_SIZE, VALIDATION_DATASET_SIZE
 # from taxifare.ml_logic.preprocessor import preprocess_features
 # from taxifare.ml_logic.registry import load_model, save_model
+<<<<<<< HEAD
 <<<<<<< HEAD
 from collections import Counter
 
@@ -40,6 +44,8 @@ if __name__ == '__main__':
     result = pred()
     print(result)
 =======
+=======
+>>>>>>> master
 
 
 def preprocess(source_type = 'train'):
@@ -92,4 +98,7 @@ if __name__ == '__main__':
     # pred()
     # evaluate()
     pass
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master

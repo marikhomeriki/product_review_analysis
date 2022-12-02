@@ -1,4 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+from taxifare.ml_logic.params import LOCAL_REGISTRY_PATH
+>>>>>>> master
 =======
 from taxifare.ml_logic.params import LOCAL_REGISTRY_PATH
 >>>>>>> master
@@ -8,8 +12,11 @@ import os
 import time
 import pickle
 <<<<<<< HEAD
+<<<<<<< HEAD
 import mlflow
 
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 
@@ -18,6 +25,7 @@ from colorama import Fore, Style
 from tensorflow.keras import Model, models
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 def load_model() -> Model:
     """
@@ -31,6 +39,8 @@ def load_model() -> Model:
 if __name__ == "__main__":
     load_model()
 =======
+=======
+>>>>>>> master
 def save_model(model: Model = None,
                params: dict = None,
                metrics: dict = None) -> None:
@@ -87,4 +97,7 @@ def load_model(save_copy_locally=False) -> Model:
     print("\n✅ model loaded from disk")
 
     return model
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
