@@ -1,7 +1,7 @@
 from google.cloud import bigquery
 import pandas as pd
 from colorama import Fore, Style
-from product_review_analysis.ml_logic.params import PROJECT, DATASET
+from prod_rev_analysis.ml_logic.params import PROJECT, DATASET, TABLE
 
 def get_bq_chunk(table: str,
                  index: int,
@@ -14,10 +14,11 @@ def get_bq_chunk(table: str,
     """
 
     if verbose:
-        print(Fore.MAGENTA + f"Source data from big query {table}: {chunk_size if chunk_size is not None else 'all'} rows (from row {index})" + Style.RESET_ALL)
+        print(Fore.MAGENTA + f"Source data from big query {table}: {chunk_size if chunk_size is not None else 'all'}\
+rows (from row {index})" + Style.RESET_ALL)
 
 
-    table = f"{PROJECT}.{DATASET}.{table}"
+    table = f"{PROJECT}.{DATASET}.{TABLE}"
 
     client = bigquery.Client()
     rows = client.list_rows(table, start_index=index, max_results=chunk_size)
@@ -25,6 +26,7 @@ def get_bq_chunk(table: str,
     if df.shape[0] == 0:
         return None
     df = df.astype(dtypes)
+    df = df.rename({'int64_field_0': 'label', 'string_field_1': 'review'}, axis = 1)
     return df
 
 
@@ -40,7 +42,8 @@ def save_bq_chunk(table: str,
 
 
     # $CHA_BEGIN
-    table = f"{PROJECT}.{DATASET}.{table}"
+    table = f"{PROJECT}.{DATASET}.{TABLE}"
+    print(table)
 
     # bq requires str columns starting with a letter or underscore
     data.columns = [f"_{column}" if type(column) != str else column for column in data.columns]
@@ -57,3 +60,8 @@ def save_bq_chunk(table: str,
     job = client.load_table_from_dataframe(data, table, job_config=job_config)
     result = job.result()  # wait for the job to complete
     # $CHA_END
+
+# check_df = get_bq_chunk(table = None, index = 0, chunk_size= 20, dtypes = {"int64_field_0": "int8", "string_field_1":"str"})
+# print(check_df.head())
+# print(check_df.dtypes)
+# print(check_df.shape)
