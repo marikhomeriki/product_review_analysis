@@ -3,3 +3,5 @@
 __pycache__
 notebooks
 .DS_Store
+notebooks/integrated_datasets
+notebooks/Y
