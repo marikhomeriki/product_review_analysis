@@ -39,8 +39,11 @@ transformers
 wordcloud
 torch
 sentencepiece
-'requests[security]'
+requests[security]
 spacy
 bertopic
 umap-learn
 wordcloud
+hdbscan
+umap-learn
+sentence-transformers

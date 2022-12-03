@@ -1,3 +1,4 @@
-raw_data/
 .DS_Store
 .env
+CNN_model
+.ipynb_checkpoints
