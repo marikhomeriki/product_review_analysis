@@ -290,6 +290,7 @@ urllib3==1.26.13
 uvicorn==0.20.0
 validators==0.20.0
 wasabi==0.10.1
+watchdog==2.1.9
 wcwidth==0.2.5
 webcolors==1.12
 webencodings==0.5.1
