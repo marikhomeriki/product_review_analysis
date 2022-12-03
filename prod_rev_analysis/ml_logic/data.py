@@ -1,24 +1,9 @@
-
-# from taxifare.ml_logic.params import (COLUMN_NAMES_RAW,
-#                                             DTYPES_RAW_OPTIMIZED,
-#                                             DTYPES_RAW_OPTIMIZED_HEADLESS,
-#                                             DTYPES_PROCESSED_OPTIMIZED
-#                                             )
-
-# from taxifare.data_sources.local_disk import (get_pandas_chunk, save_local_chunk)
-
-# from taxifare.data_sources.big_query import (get_bq_chunk, save_bq_chunk)
-
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import pandas as pd
 import numpy as np
 from tensorflow.keras.preprocessing.text import text_to_word_sequence
 import pickle
-
-
-import os
-
 
 def load_data():
     df = pd.read_csv('/Users/marikhomeriki/code/marikhomeriki/raw_data/data_dishoom.csv', header=None)
@@ -44,6 +29,5 @@ def clean_data(list) -> np.ndarray:
     df_token = tokenizer.texts_to_sequences(list)
 
     df_token_pad = pad_sequences(df_token, maxlen=50, dtype='float32', padding="post")
-
 
     return df_token_pad
