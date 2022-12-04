@@ -10,6 +10,8 @@ import pandas as pd
 import altair as alt
 import subprocess
 # from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+# from prod_rev_analysis.interface.main import pred
+
 from prod_rev_analysis.interface.main import pred
 
 import webbrowser
