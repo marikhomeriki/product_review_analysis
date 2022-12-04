@@ -1,5 +1,7 @@
 import requests
 import streamlit as st
+import numpy as np
+
 # from streamlit_lottie import st_lottie
 import time
 import datetime
@@ -108,13 +110,13 @@ with form:
     submit = form.form_submit_button("Submit Now", disabled=False)
     st.info("**Choose an option using the boxes.**")
 
-    # if submit:
-    #     output = get_data_yelp(url)
-    #     st.write(yelp, output)
-    #     if 'https://www.yelp.com' in url:
-    #         webbrowser.open_new_tab(url)
-    #     else:
-    #         st.write("Not a Yelp file")
+    if submit:
+        output = get_data_yelp(url)
+        st.write(yelp, output)
+        if 'https://www.yelp.com' in url:
+            webbrowser.open_new_tab(url)
+        else:
+            st.write("Not a Yelp file")
 
 
 bug_severity = st.slider("**`Number of Reviews :`**", 0, 1000, step=50)
@@ -219,6 +221,7 @@ st.altair_chart(bar_chart, use_container_width=True)
 
 # st.header(f'Fare amount: ${round(pred, 2)}')
 
-counter = pred()
+counter = dict(pred())
 
-st.write(counter)
+counter = pd.DataFrame.from_dict(counter, orient ='index')
+st.bar_chart(counter)
