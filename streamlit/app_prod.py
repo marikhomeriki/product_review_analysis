@@ -9,7 +9,7 @@ import base64
 import pandas as pd
 import altair as alt
 import subprocess
-from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+# from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
 from prod_rev_analysis.interface.main import pred
 
 import webbrowser
@@ -106,13 +106,13 @@ with form:
     submit = form.form_submit_button("Submit Now", disabled=False)
     st.info("**Choose an option using the boxes.**")
 
-    if submit:
-        output = get_data_yelp(url)
-        st.write(yelp, output)
-        if 'https://www.yelp.com' in url:
-            webbrowser.open_new_tab(url)
-        else:
-            st.write("Not a Yelp file")
+    # if submit:
+    #     output = get_data_yelp(url)
+    #     st.write(yelp, output)
+    #     if 'https://www.yelp.com' in url:
+    #         webbrowser.open_new_tab(url)
+    #     else:
+    #         st.write("Not a Yelp file")
 
 
 bug_severity = st.slider("**`Number of Reviews :`**", 0, 1000, step=50)
