@@ -257,7 +257,8 @@ tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow-datasets==4.7.0
 tensorflow-estimator==2.10.0
-tensorflow-macos==2.10.0
+# tensorflow-macos==2.10.0
+tensorflow==2.10.0
 tensorflow-metadata==1.11.0
 termcolor==2.1.1
 terminado==0.17.0
