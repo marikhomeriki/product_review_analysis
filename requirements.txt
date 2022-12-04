@@ -173,7 +173,6 @@ plotly==5.11.0
 pluggy==1.0.0
 prefect==1.4.0
 preshed==3.0.8
-product-review-analysis==0.0.0
 prometheus-client==0.15.0
 prometheus-flask-exporter==0.21.0
 promise==2.3
