@@ -302,4 +302,3 @@ yapf==0.32.0
 yarl==1.8.1
 zict==2.2.0
 zipp==3.11.0
-product-review-analysis
