@@ -18,7 +18,7 @@ import webbrowser
 
 
 
-st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
+st.set_page_config(page_title="Product Review Analysis", page_icon= "tada", layout= "wide")
 
 st.markdown ("""
     <style>
