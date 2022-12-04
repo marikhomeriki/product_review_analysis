@@ -10,6 +10,8 @@ import pandas as pd
 import altair as alt
 import subprocess
 from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+from prod_rev_analysis.interface.main import pred
+
 import webbrowser
 
 
@@ -214,3 +216,7 @@ st.altair_chart(bar_chart, use_container_width=True)
 # pred = prediction['fare']
 
 # st.header(f'Fare amount: ${round(pred, 2)}')
+
+counter = pred()
+
+st.write(counter)
