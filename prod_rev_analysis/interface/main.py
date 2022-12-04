@@ -1,9 +1,4 @@
 from colorama import Fore, Style
-import os
-import sys
-
-sys.path.append(os.getcwd() + '/prod_rev_analysis')
-
 from prod_rev_analysis.ml_logic.registry import load_model
 from prod_rev_analysis.ml_logic.data import load_data, clean_data
 from collections import Counter
