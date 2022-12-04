@@ -6,7 +6,7 @@ from tensorflow.keras.preprocessing.text import text_to_word_sequence
 import pickle
 
 def load_data():
-    df = pd.read_csv('/Users/marikhomeriki/code/marikhomeriki/raw_data/data_dishoom.csv', header=None)
+    df = pd.read_csv('/Users/marikhomeriki/code/marikhomeriki/product_review_analysis/temp_data/data_mc.csv', header=None)
     # df = pd.read_csv('../review.csv', header=None)
     df = df.rename({1: 'text'}, axis = 1)
     df = df.dropna()
