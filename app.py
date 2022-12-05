@@ -29,6 +29,8 @@ from prod_rev_analysis.ml_logic import model_w2v
 import webbrowser
 
 nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
 
 st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
 
