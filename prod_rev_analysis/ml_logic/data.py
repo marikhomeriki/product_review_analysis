@@ -56,6 +56,15 @@ def load_data_wordcloud():
 
     return df
 
+def load_data_absa():
+    csv_path = os.getcwd() + "/temp_data/duck-and-waffle-london.csv"
+    df = pd.read_csv(csv_path, header=None)
+    df = df.rename({1: 'text'}, axis = 1)
+    df = df.dropna()
+    df = pd.DataFrame(df.text)
+    return df
+
+
 def clean_data(list) -> np.ndarray:
     """
     clean raw data by tokenizing and padding the reviews

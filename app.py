@@ -5,6 +5,9 @@ from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from prod_rev_analysis.ml_logic.data import load_data_w2v, cleaning_w2v
 from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
+from prod_rev_analysis.ml_logic.absa import get_sent_asps
+
+
 
 
 
@@ -320,3 +323,8 @@ with c2:
     words2v_pos = pos_word2v(data_w2v)
     st.write(words2v_pos)
     st.bar_chart(words2v_pos)
+
+sent_asp_distribution = get_sent_asps()
+st.write(sent_asp_distribution)
+
+st.bar_chart(sent_asp_distribution)
