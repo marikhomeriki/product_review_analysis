@@ -47,7 +47,3 @@ def get_data_yelp(url, pages = 2):
 
 def hello_world():
     return "hello world. This is me arun"
-
-
-output = get_data_yelp("https://www.yelp.co.uk/biz/dishoom-london")
-print(output)

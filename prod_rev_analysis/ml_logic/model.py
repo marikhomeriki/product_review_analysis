@@ -3,6 +3,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 import pandas as pd
 import os
 import numpy as np
+from prod_rev_analysis.ml_logic.data import load_data_w2v, cleaning_w2v
 
 
 
@@ -60,3 +61,12 @@ def evaluate_model(model: Model,
     print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(mae, 2)}")
 
     return metrics
+
+
+
+def neg_word2v(df):
+    df_negative = df[df.score < 4]
+    neg_reviews = df_negative.text
+    neg_reviews = pd.DataFrame(neg_reviews)
+    neg_reviews_cleaned = neg_reviews["text"].apply(cleaning_w2v)
+    neg_reviews_cleaned = pd.DataFrame(neg_reviews_cleaned)
