@@ -31,6 +31,7 @@ import webbrowser
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
 
 st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
 
