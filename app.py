@@ -1,6 +1,12 @@
 import requests
 import streamlit as st
 import numpy as np
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+from prod_rev_analysis.ml_logic.data import load_data_w2v, cleaning_w2v
+from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
+
+
 
 # from streamlit_lottie import st_lottie
 import time
@@ -12,7 +18,13 @@ import pandas as pd
 import altair as alt
 import subprocess
 from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+
+from prod_rev_analysis.ml_logic.data import load_data_wordcloud, clean_data
+
+
 from prod_rev_analysis.interface.main import pred
+from prod_rev_analysis.ml_logic import model_w2v
+
 
 import webbrowser
 
@@ -35,12 +47,21 @@ with st.container():
         st.header("By Mariami Khomeriki, Ankur Kaushal, Mathias Freisleben\
             , Arun Appulingam")
 
+
+    # with right_col:
+        # file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
+        # contents = file.read()
+        # data_url = base64.b64encode(contents).decode('utf-8-sig')
+        # file.close()
+        # st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
+
     with right_col:
         file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
         contents = file.read()
         data_url = base64.b64encode(contents).decode('utf-8-sig')
         file.close()
         st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
+
 st.write("---")
 st.markdown("# Introduction 📈")
 st.sidebar.markdown("# Page 1: 📈")
@@ -55,8 +76,8 @@ st.write ("Mathias:")
 st.write ("Arun: Creating a Sequential and CNN base model, helped clean data, using Streamline to make this website :)")
 
 st.write("---")
-st.markdown("# Inputting the Data 📊")
-st.sidebar.markdown("# Page 2: 📊")
+st.markdown("# Running the Data 😮")
+st.sidebar.markdown("# Page 2: 😮")
 
 # data_url=('/Users/arun._.appulingam/code/marikhomeriki/product_review_analysis/raw_data/train.csv')
 # @st.cache(persist=True)
@@ -67,17 +88,36 @@ st.sidebar.markdown("# Page 2: 📊")
 
 # review_data=load_data()
 st.markdown("#### Step 1:")
-url = st.text_input("**`Give the URL link:`**", None)
+
+st.write("**`Get Review From :`**")
+
+st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
+column1,column2,column3 = st.columns(3)
+with column1:
+    # st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
+    google = column1.checkbox('Google')
+
+with column2:
+    # st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+#     column2.write(f"`Yelp`")
+    yelp = column2.checkbox('Yelp')
+
+with column3:
+    # st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
+#     column3.write('')
+    trust_pilot = column3.checkbox('TrustPilot')
+
+number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 20, step=1)
+
+form = st.form("form", clear_on_submit=True)
+with form:
+    url = st.text_input("**`Give the URL link:`**", None)
+
 
 # path = ''
 # outlet_df = pd.read_csv(path)
 
-number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 20, step=1)
-
-st.markdown("#### Step 2:")
-st.write("**`Get Review From :`**")
-form = st.form("form", clear_on_submit=True)
-with form:
+    number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
 
     st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
     column1,column2,column3 = form.columns(3)
@@ -106,6 +146,20 @@ with form:
     st.info("**Choose an option using the boxes.**")
 
     if submit:
+
+        # check if url value is empty / if box is empty (or the default values)
+        if url == "None" or url == '':
+                    st.write("missing information, please fill out")
+        # return the st.write that contains the intended message (i.e. please fill in missing info )
+        elif 'https://www.yelp.' not in url:
+                    st.write("this is not a Yelp file, please try again")
+        else:
+            output = get_data_yelp(url, pages = number_of_pages)
+            st.write(yelp, output)
+            st.balloons()
+
+
+# st.markdown("#### Step 2:")
 
         # check if url value is empty / if box is empty (or the default values)
         if url == "None" or url == '':
@@ -143,6 +197,14 @@ with c2:
             }
         </style>
         """
+
+# if url is None:
+#     "You missed out information"
+# elif form is None:
+#     return "You missed out information"
+# else:
+#     return x
+
 
 # source = pd.DataFrame({
 #         "Price ($)": [10, 15, 20],
@@ -221,7 +283,40 @@ with c2:
 
 # st.header(f'Fare amount: ${round(pred, 2)}')
 
+
+
+st.markdown("# Graphs and Review Data 📊")
+st.sidebar.markdown("# Page 3: 📊")
+
 counter = dict(pred())
 
 counter = pd.DataFrame.from_dict(counter, orient ='index')
 st.bar_chart(counter)
+
+data = load_data_wordcloud()
+full_text = ' '.join(data['text'])
+wordcloud = WordCloud().generate(full_text)
+
+# Display the generated image:
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+st.pyplot()
+
+
+# cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
+# plt.imshow(cloud_no_stopword, interpolation='bilinear')
+# plt.axis('off')
+# plt.show()
+
+c1,c2= st.columns(2)
+with c1:
+    data_w2v = load_data_w2v()
+    words2v = neg_word2v(data_w2v)
+    st.write(words2v)
+    st.bar_chart(words2v)
+with c2:
+    data_w2v = load_data_w2v()
+    words2v_pos = pos_word2v(data_w2v)
+    st.write(words2v_pos)
+    st.bar_chart(words2v_pos)

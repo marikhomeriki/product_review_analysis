@@ -35,6 +35,8 @@ def get_data_yelp(url, pages = 2):
     average_score = df_reviews.Score.mean()
     return df_reviews, review_count, average_score
 
+def hello_world():
+    return "hello world. This is me arun"
 
 
 def get_data_trustpilot(url, pages = 1):
