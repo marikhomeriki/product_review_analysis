@@ -58,13 +58,6 @@ with st.container():
         # file.close()
         # st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
 
-    with right_col:
-        file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
-        contents = file.read()
-        data_url = base64.b64encode(contents).decode('utf-8-sig')
-        file.close()
-        st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
-
 st.write("---")
 st.markdown("# Introduction 📈")
 st.sidebar.markdown("# Page 1: 📈")
@@ -125,16 +118,16 @@ with form:
     st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
     column1,column2,column3 = form.columns(3)
     with column1:
-        st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
+        # st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
         google = column1.checkbox('Google')
 
     with column2:
-        st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+        # st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
     #     column2.write(f"`Yelp`")
         yelp = column2.checkbox('Yelp')
 
     with column3:
-        st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
+        # st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
     #     column3.write('')
         trust_pilot = column3.checkbox('TrustPilot')
 
