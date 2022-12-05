@@ -18,7 +18,9 @@ import pandas as pd
 import altair as alt
 import subprocess
 from prod_rev_analysis.data_sources.data_scarping import hello_world,get_data_yelp
+
 from prod_rev_analysis.ml_logic.data import load_data_wordcloud, clean_data
+
 
 from prod_rev_analysis.interface.main import pred
 from prod_rev_analysis.ml_logic import model_w2v
@@ -26,9 +28,7 @@ from prod_rev_analysis.ml_logic import model_w2v
 
 import webbrowser
 
-
-
-st.set_page_config(page_title="Product Review Analysis", page_icon= "tada", layout= "wide")
+st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
 
 st.markdown ("""
     <style>
@@ -47,12 +47,21 @@ with st.container():
         st.header("By Mariami Khomeriki, Ankur Kaushal, Mathias Freisleben\
             , Arun Appulingam")
 
+
     # with right_col:
         # file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
         # contents = file.read()
         # data_url = base64.b64encode(contents).decode('utf-8-sig')
         # file.close()
         # st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
+
+    with right_col:
+        file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
+        contents = file.read()
+        data_url = base64.b64encode(contents).decode('utf-8-sig')
+        file.close()
+        st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
+
 st.write("---")
 st.markdown("# Introduction 📈")
 st.sidebar.markdown("# Page 1: 📈")
@@ -98,14 +107,33 @@ with column3:
 #     column3.write('')
     trust_pilot = column3.checkbox('TrustPilot')
 
+number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 20, step=1)
+
 form = st.form("form", clear_on_submit=True)
 with form:
     url = st.text_input("**`Give the URL link:`**", None)
+
 
 # path = ''
 # outlet_df = pd.read_csv(path)
 
     number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
+
+    st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
+    column1,column2,column3 = form.columns(3)
+    with column1:
+        st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
+        google = column1.checkbox('Google')
+
+    with column2:
+        st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+    #     column2.write(f"`Yelp`")
+        yelp = column2.checkbox('Yelp')
+
+    with column3:
+        st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
+    #     column3.write('')
+        trust_pilot = column3.checkbox('TrustPilot')
 
     flag = True
     if (url is not None) and ((google and not yelp and not trust_pilot)\
@@ -132,6 +160,17 @@ with form:
 
 
 # st.markdown("#### Step 2:")
+
+        # check if url value is empty / if box is empty (or the default values)
+        if url == "None" or url == '':
+                    st.write("missing information, please fill out")
+        # return the st.write that contains the intended message (i.e. please fill in missing info )
+        elif 'https://www.yelp.' not in url:
+                    st.write("this is not a Yelp file, please try again")
+        else:
+            output = get_data_yelp(url)
+            st.write(yelp, output)
+            st.balloons()
 
 
 st.write('---')
@@ -165,6 +204,20 @@ with c2:
 #     return "You missed out information"
 # else:
 #     return x
+
+
+# source = pd.DataFrame({
+#         "Price ($)": [10, 15, 20],
+#         "Month": ["January", "February", "March"]
+#       })
+# st.write("---")
+# bar_chart = alt.Chart(source).mark_bar().encode(
+#     x="sum(Price ($)):Q",
+#     y=alt.Y("Month:N", sort="-x")
+#     )
+
+# st.altair_chart(bar_chart, use_container_width=True)
+
 
 # if submit:
 #     list_values = [int(i) for i in values]
