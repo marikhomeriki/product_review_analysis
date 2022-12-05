@@ -6,10 +6,7 @@ import matplotlib.pyplot as plt
 from prod_rev_analysis.ml_logic.data import load_data_w2v, cleaning_w2v
 from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
 from prod_rev_analysis.ml_logic.absa import get_sent_asps
-
-
-
-
+import nltk
 
 # from streamlit_lottie import st_lottie
 import time
@@ -30,6 +27,8 @@ from prod_rev_analysis.ml_logic import model_w2v
 
 
 import webbrowser
+
+nltk.download('punkt')
 
 st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
 
