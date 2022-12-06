@@ -322,7 +322,7 @@ with c2:
     st.write(words2v_pos)
     st.bar_chart(words2v_pos)
 
-sent_asp_distribution = get_sent_asps()
-st.write(sent_asp_distribution)
+# sent_asp_distribution = get_sent_asps()
+# st.write(sent_asp_distribution)
 
-st.bar_chart(sent_asp_distribution)
+# st.bar_chart(sent_asp_distribution)
