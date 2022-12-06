@@ -261,7 +261,7 @@ cnn_model = pd.DataFrame.from_dict(data['cnn_model'], orient='index')
 words = data['words']
 words2v_neg = pd.DataFrame.from_dict(data['words2v_neg'])
 words2v_pos = pd.DataFrame.from_dict(data['words2v_pos'])
-absa = pd.DataFrame.from_dict(data['absa'])
+# absa = pd.DataFrame.from_dict(data['absa'])
 
 st.bar_chart(cnn_model)
 
@@ -281,5 +281,5 @@ with c2:
     st.write(words2v_pos)
     st.bar_chart(words2v_pos)
 
-st.write(absa)
-st.bar_chart(absa)
+# st.write(absa)
+# st.bar_chart(absa)
