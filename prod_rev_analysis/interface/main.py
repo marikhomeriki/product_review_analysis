@@ -4,12 +4,11 @@ from prod_rev_analysis.ml_logic.data import load_data, clean_data
 from collections import Counter
 
 
-def pred(df):
+def pred(data):
     """
     Make a prediction using the latest trained model
     """
 
-    data = load_data(df)
     data_cleaned = clean_data(data)
     model = load_model()
     y_pred =  model.predict(data_cleaned)

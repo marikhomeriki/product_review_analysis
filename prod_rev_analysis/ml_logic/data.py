@@ -24,15 +24,7 @@ from prod_rev_analysis.data_sources import data_scarping
 
 
 def load_data(df):
-    # if not df:
-    #     csv_path = os.getcwd() + "/temp_data/data_mc.csv"
-    #     df = pd.read_csv(csv_path, header=None)
-    #     # df = pd.read_csv('../review.csv', header=None)
-    #     df = df.rename({0: 'text'}, axis = 1)
-    #     df = df.dropna()
-    #     df = pd.DataFrame(df.text)
-
-
+    df = pd.DataFrame(df['text'])
     train_sentences = df['text']
 
 
