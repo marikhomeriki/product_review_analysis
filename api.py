@@ -1,8 +1,6 @@
 from fastapi import FastAPI
-from wordcloud import WordCloud
 import pandas as pd
 import nltk
-from collections import Counter
 from prod_rev_analysis.ml_logic.absa import get_sent_asps
 from prod_rev_analysis.interface.main import pred
 from prod_rev_analysis.ml_logic.data import load_data_wordcloud, load_data
@@ -102,32 +100,25 @@ mock_data = {
 @app.get("/analyze")
 async def analyze(source: str = '', url: str = '', pages: int = 1):
     if source == 'Yelp':
-        df_reviews, review_count, average_score = get_data_yelp(url, pages)
+        df_reviews, _, __ = get_data_yelp(url, pages)
     else:
-        df_reviews, review_count, average_score = get_data_trustpilot(
-            url, pages)
+        df_reviews, _, __ = get_data_trustpilot(url, pages)
 
     cnn_data = load_data(df_reviews)
-    # data = load_data_wordcloud()
-    # data_w2v = load_data_w2v()
 
     cnn_model = pred(cnn_data)
-    # words = " ".join(data['text'].to_list())
-    # words2v_neg = neg_word2v(data_w2v).to_dict()
-    # words2v_pos = pos_word2v(data_w2v).to_dict()
-    # absa = get_sent_asps().to_dict()
+    words = " ".join(df_reviews['text'].to_list())
+    words2v_neg = neg_word2v(df_reviews).to_dict()
+    words2v_pos = pos_word2v(df_reviews).to_dict()
+    absa = get_sent_asps(pd.DataFrame(df_reviews['text'])).to_dict()
 
-    # return {
-    #     'cnn_model': cnn_model,
-    #     'words': words,
-    #     'words2v_neg': words2v_neg,
-    #     'words2v_pos': words2v_pos,
-    #     'absa': absa
-    # }
-
-    mock_data['cnn_model'] = cnn_model
-
-    return mock_data
+    return {
+        'cnn_model': cnn_model,
+        'words': words,
+        'words2v_neg': words2v_neg,
+        'words2v_pos': words2v_pos,
+        'absa': absa
+    }
 
 
 @app.get("/mock-analyze")

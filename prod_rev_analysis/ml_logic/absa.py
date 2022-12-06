@@ -9,7 +9,6 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
-from prod_rev_analysis.ml_logic.data import load_data_absa
 from pyabsa import ATEPCCheckpointManager
 
 
@@ -22,7 +21,6 @@ from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 
 
-df = load_data_absa()
 
 aspect_extractor = ATEPCCheckpointManager.get_aspect_extractor(checkpoint='multilingual-256-2')
 
@@ -69,8 +67,7 @@ def get_aspect_distribution(dataframes):
 
 
 
-def get_dfs():
-
+def get_dfs(df):
     dfs = get_aspect_dfs(df)
     aspects = get_aspect_distribution(dfs)
     lss = list(aspects.keys())
@@ -79,12 +76,12 @@ def get_dfs():
 
 
 
-def get_sent_asps():
+def get_sent_asps(df):
     sent_asps = {}
     sent_counts = []
     dfs = get_aspect_dfs(df)
     aspects = get_aspect_distribution(dfs)
-    frequent_aspects = get_dfs()
+    frequent_aspects = get_dfs(df)
     for aspect in frequent_aspects:
         sent_counts.append(aspects[aspect].count('Positive'))
         sent_counts.append(aspects[aspect].count('Negative'))

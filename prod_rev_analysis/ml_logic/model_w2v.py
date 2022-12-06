@@ -79,7 +79,7 @@ def neg_word2v(df):
 
     vectorizer_neg = TfidfVectorizer(ngram_range = (1,2),
                              min_df=0.01,
-                             max_df = 0.05).fit(neg_reviews_cleaned.text).fit(neg_reviews_cleaned.text)
+                             max_df = 0.5).fit(neg_reviews_cleaned.text).fit(neg_reviews_cleaned.text)
     vectors_neg = pd.DataFrame(vectorizer_neg.transform(neg_reviews_cleaned.text).toarray(),
                        columns = vectorizer_neg.get_feature_names_out())
     sum_tfidf_neg = vectors_neg.sum(axis = 0)
