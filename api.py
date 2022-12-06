@@ -5,7 +5,7 @@ import nltk
 from collections import Counter
 from prod_rev_analysis.ml_logic.absa import get_sent_asps
 from prod_rev_analysis.interface.main import pred
-from prod_rev_analysis.ml_logic.data import load_data_wordcloud
+from prod_rev_analysis.ml_logic.data import load_data_wordcloud, load_data
 from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
 from prod_rev_analysis.ml_logic.data import load_data_w2v
 
@@ -20,11 +20,12 @@ nltk.download('omw-1.4')
 
 
 @app.get("/analyze")
-async def analyze():
+async def analyze(source: str = '', url: str = '', page: int = 1):
+    cnn_data = load_data()
     data = load_data_wordcloud()
     data_w2v = load_data_w2v()
 
-    cnn_model = dict(pred())
+    cnn_model = dict(pred(cnn_data))
     words = " ".join(data['text'].to_list())
     words2v_neg = neg_word2v(data_w2v).to_dict()
     words2v_pos = pos_word2v(data_w2v).to_dict()
@@ -40,7 +41,7 @@ async def analyze():
 
 
 @app.get("/mock-analyze")
-async def mock_analyze():
+async def mock_analyze(source: str = '', url: str = '', page: int = 1):
     return {
         "cnn_model": {
             "Negative": 1218,
