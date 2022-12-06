@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from wordcloud import WordCloud
 import pandas as pd
+import nltk
 from collections import Counter
 from prod_rev_analysis.ml_logic.absa import get_sent_asps
 from prod_rev_analysis.interface.main import pred
@@ -9,6 +10,13 @@ from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
 from prod_rev_analysis.ml_logic.data import load_data_w2v
 
 app = FastAPI()
+
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
+nltk.download('corpus')
+nltk.download('omw-1.4')
 
 @app.get("/analyze")
 async def root():
