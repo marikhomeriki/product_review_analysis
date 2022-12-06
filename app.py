@@ -7,8 +7,6 @@ from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
 import altair as alt
 import os
 
-
-# from streamlit_lottie import st_lottie
 import time
 import datetime
 import requests
@@ -42,12 +40,6 @@ with st.container():
             , Arun Appulingam")
 
 
-    # with right_col:
-        # file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
-        # contents = file.read()
-        # data_url = base64.b64encode(contents).decode('utf-8-sig')
-        # file.close()
-        # st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
 
 st.write("---")
 st.markdown("# Introduction 📈")
@@ -66,31 +58,21 @@ st.write("---")
 st.markdown("# Running the Data 😮")
 st.sidebar.markdown("# Page 2: 😮")
 
-# data_url=('/Users/arun._.appulingam/code/marikhomeriki/product_review_analysis/raw_data/train.csv')
-# @st.cache(persist=True)
 
-# def load_data():
-#     data=pd.read_csv(data_url)
-#     return data
-
-# review_data=load_data()
 st.markdown("### Step 1:")
 
 st.write("**`Get Review From :`**")
 
 st.markdown("<h3 style='text-align: center;'>Choose One:</h3>",unsafe_allow_html= True)
 column1,column2 = st.columns(2)
-# with column1:
-#     st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
-#     google = column1.checkbox('Google')
+
 
 with column1:
-    st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+    # st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
     yelp = column1.checkbox('Yelp')
 
 with column2:
-    st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
-#     column3.write('')
+    # st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
     trust_pilot = column2.checkbox('TrustPilot')
 
 st.info("**Choose an option using the boxes.**")
@@ -112,7 +94,7 @@ with form:
     # path = ''
     # outlet_df = pd.read_csv(path)
 
-    number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
+    # number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
 
     st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
     column1,column2,column3 = form.columns(3)
@@ -175,10 +157,6 @@ with form:
                 plt.show()
                 st.pyplot()
 
-                # cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
-                # plt.imshow(cloud_no_stopword, interpolation='bilinear')
-                # plt.axis('off')
-                # plt.show()
 
                 c1,c2= st.columns(2)
                 with c1:
@@ -240,12 +218,7 @@ with form:
                 plt.imshow(wordcloud, interpolation='bilinear')
                 plt.axis("off")
                 plt.show()
-                st.pyplot()
 
-                # cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
-                # plt.imshow(cloud_no_stopword, interpolation='bilinear')
-                # plt.axis('off')
-                # plt.show()
 
                 c1,c2= st.columns(2)
                 with c1:
@@ -301,34 +274,7 @@ with c2:
         </style>
         """
 
-# if submit:
-#     list_values = [int(i) for i in values]
-#     if sum(list_values) == 0:
-#         st.error("**Choose an option!**")
-#         time.sleep(1)
-#         st.experimental_rerun()
 
-
-# def get_total_dataframe(dataset):
-#     total_dataframe = pd.DataFrame({
-#     'Status':['Confirmed', 'Recovered', 'Deaths','Active'],
-#     'Number of cases':(dataset.iloc[0]['confirmed'],
-#     dataset.iloc[0]['recovered'],
-#     dataset.iloc[0]['deaths'],dataset.iloc[0]['active'])})
-#     return total_dataframe
-
-# state_total = get_total_dataframe(state_data
-
-
-# counter = dict(pred())
-
-
-# if submit:
-
-#     st.markdown("# Graphs and Review Data 📊")
-#     st.sidebar.markdown("# Page 3: 📊")
-
-# counter = dict(pred(df = output[0]))
 output = pd.read_csv("temp.csv")
 counter = pred(output)
 
@@ -337,37 +283,33 @@ counter = pd.DataFrame.from_dict(counter, orient ='index')
 st.bar_chart(counter)
 
 
-# prediction = response.json()
 
-# pred = prediction['fare']
 
-# st.header(f'Fare amount: ${round(pred, 2)}')
+# st.markdown("# Graphs and Review Data 📊")
+# st.sidebar.markdown("# Page 3: 📊")
 
-st.markdown("# Graphs and Review Data 📊")
-st.sidebar.markdown("# Page 3: 📊")
+# # TODO: use environment variables
+# data = requests.get("https://pra-icpdyxu5pq-nw.a.run.app/mock-analyze").json()
 
-# TODO: use environment variables
-data = requests.get("https://pra-icpdyxu5pq-nw.a.run.app/mock-analyze").json()
+# cnn_model = pd.DataFrame.from_dict(data['cnn_model'], orient='index')
+# words = data['words']
+# words2v_neg = pd.DataFrame.from_dict(data['words2v_neg'])
+# words2v_pos = pd.DataFrame.from_dict(data['words2v_pos'])
+# # absa = pd.DataFrame.from_dict(data['absa'])
 
-cnn_model = pd.DataFrame.from_dict(data['cnn_model'], orient='index')
-words = data['words']
-words2v_neg = pd.DataFrame.from_dict(data['words2v_neg'])
-words2v_pos = pd.DataFrame.from_dict(data['words2v_pos'])
-# absa = pd.DataFrame.from_dict(data['absa'])
+# st.bar_chart(cnn_model)
 
-st.bar_chart(cnn_model)
+# wordcloud = WordCloud().generate(words)
+# # data = load_data_wordcloud(df = output)
+# full_text = ' '.join(output['text'])
+# wordcloud = WordCloud().generate(full_text)
 
-wordcloud = WordCloud().generate(words)
-# data = load_data_wordcloud(df = output)
-full_text = ' '.join(output['text'])
-wordcloud = WordCloud().generate(full_text)
-
-# Display the generated image:
-st.markdown("#### Mariami's picture thingy:")
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis("off")
-plt.show()
-st.pyplot()
+# # Display the generated image:
+# st.markdown("#### Mariami's picture thingy:")
+# plt.imshow(wordcloud, interpolation='bilinear')
+# plt.axis("off")
+# plt.show()
+# st.pyplot()
 
 c1,c2= st.columns(2)
 with c1:
@@ -382,14 +324,13 @@ with c1:
     x='Words',
     y='Scores'
 ))
-    # st.bar_chart(words2v)
-
 
 
 with c2:
     st.markdown("#### Positive words:")
     # data_w2v = load_data_w2v(df = output)
     words2v_pos = pos_word2v(output)
+    st.write(words2v_pos)
     words2v_pos.reset_index(inplace = True)
     words2v_pos.columns = ["Words", "Scores"]
     st.write(words2v_pos)
