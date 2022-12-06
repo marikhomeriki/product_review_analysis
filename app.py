@@ -2,20 +2,38 @@ import streamlit as st
 import numpy as np
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-import pandas as pd
+from prod_rev_analysis.ml_logic.data import load_data_w2v, cleaning_w2v
+from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
+import altair as alt
+import os
+
+
+# from streamlit_lottie import st_lottie
+import time
+import datetime
 import requests
+from PIL import Image
+import base64
+import pandas as pd
+import altair as alt
+import subprocess
+from prod_rev_analysis.data_sources.data_scarping import get_data_yelp
+from prod_rev_analysis.data_sources.data_scarping import get_data_trustpilot
+from prod_rev_analysis.ml_logic.data import load_data_wordcloud, clean_data
 
-st.set_page_config(page_title="Product Review Analysis", page_icon= "tada", layout= "wide")
 
-st.markdown ("""
-    <style>
-    .title{
-        font-size:1006px;
-        }
-    </style>
-    """,unsafe_allow_html=True)
+from prod_rev_analysis.interface.main import pred
+from prod_rev_analysis.ml_logic import model_w2v
 
-st.title("Product Review Analysis")
+
+import webbrowser
+
+output = 0
+
+st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
+
+original_title = '<b style="font-family:serif; text-align:center; color:black; font-size: 70px;">Product Review Analysis</b>'
+st.markdown(original_title, unsafe_allow_html=True)
 
 with st.container():
     left_col,mid_col,right_col = st.columns(3)
@@ -36,7 +54,7 @@ st.markdown("# Introduction 📈")
 st.sidebar.markdown("# Page 1: 📈")
 st.header("Main Tasks")
 
-st.write("This project is based around..........")
+st.write("This aim of this project is to ........")
 
 st.write("We divided the task in this were split within the group:")
 st.write ("Mari:")
@@ -56,31 +74,40 @@ st.sidebar.markdown("# Page 2: 😮")
 #     return data
 
 # review_data=load_data()
-st.markdown("#### Step 1:")
+st.markdown("### Step 1:")
 
 st.write("**`Get Review From :`**")
 
-st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
-column1,column2,column3 = st.columns(3)
+st.markdown("<h3 style='text-align: center;'>Choose One:</h3>",unsafe_allow_html= True)
+column1,column2 = st.columns(2)
+# with column1:
+#     st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
+#     google = column1.checkbox('Google')
+
 with column1:
-    # st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
-    google = column1.checkbox('Google')
+    st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+    yelp = column1.checkbox('Yelp')
 
 with column2:
-    # st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
-#     column2.write(f"`Yelp`")
-    yelp = column2.checkbox('Yelp')
-
-with column3:
-    # st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
+    st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
 #     column3.write('')
-    trust_pilot = column3.checkbox('TrustPilot')
+    trust_pilot = column2.checkbox('TrustPilot')
 
-number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 20, step=1)
+st.info("**Choose an option using the boxes.**")
+
+st.write('---')
+
+st.markdown("### Step 2:")
 
 form = st.form("form", clear_on_submit=True)
 with form:
     url = st.text_input("**`Give the URL link:`**", None)
+
+
+# path = ''
+# outlet_df = pd.read_csv(path)
+
+    number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
 
     # path = ''
     # outlet_df = pd.read_csv(path)
@@ -103,47 +130,155 @@ with form:
         # column3.write('')
         trust_pilot = column3.checkbox('TrustPilot')
 
+
     flag = True
-    if (url is not None) and ((google and not yelp and not trust_pilot)\
-        or (not google and yelp and not trust_pilot) or (not google and not yelp and trust_pilot)):
+    if (url is not None) and ((not yelp and not trust_pilot)\
+        or (yelp and not trust_pilot) or (not yelp and trust_pilot)):
         flag = True
     else:
         flag = False
 
     submit = form.form_submit_button("Submit Now", disabled=False)
-    st.info("**Choose an option using the boxes.**")
 
     if submit:
 
         # check if url value is empty / if box is empty (or the default values)
-        if url == "None" or url == '':
-                    st.write("missing information, please fill out")
-        # return the st.write that contains the intended message (i.e. please fill in missing info )
-        elif 'https://www.yelp.' not in url:
-                    st.write("this is not a Yelp file, please try again")
-        else:
-            output = get_data_yelp(url, pages = number_of_pages)
-            st.write(yelp, output)
-            st.balloons()
+        if yelp:
+            if url == "None" or url == '':
+                        st.write("missing information, please fill out")
+            # return the st.write that contains the intended message (i.e. please fill in missing info )
+            elif 'https://www.yelp.' not in url:
+                        st.write("this is not a Yelp file, please try again")
+            else:
+                output = get_data_yelp(url, pages = number_of_pages)
+                st.balloons()
+                st.write("Review count: ", output[1])
+                st.write("Average score: ", output[2])
+
+                st.markdown("# Graphs and Review Data 📊")
+                st.sidebar.markdown("# Page 3: 📊")
+                output[0].to_csv("temp.csv")
+                counter = pred(output[0])
+                st.markdown("#### Negative vs. Positive Reviews:")
+                counter = pd.DataFrame.from_dict(counter, orient ='index')
+                st.bar_chart(counter)
 
 
-        # st.markdown("#### Step 2:")
+                data = load_data_wordcloud()
+                full_text = ' '.join(data['text'])
+                wordcloud = WordCloud().generate(full_text)
 
-        # check if url value is empty / if box is empty (or the default values)
-        if url == "None" or url == '':
-                    st.write("missing information, please fill out")
-        # return the st.write that contains the intended message (i.e. please fill in missing info )
-        elif 'https://www.yelp.' not in url:
-                    st.write("this is not a Yelp file, please try again")
-        else:
-            output = get_data_yelp(url)
-            st.write(yelp, output)
-            st.balloons()
+                # Display the generated image:
+                st.markdown("#### Mariami's picture thingy:")
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis("off")
+                plt.show()
+                st.pyplot()
+
+                # cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
+                # plt.imshow(cloud_no_stopword, interpolation='bilinear')
+                # plt.axis('off')
+                # plt.show()
+
+                c1,c2= st.columns(2)
+                with c1:
+                    st.markdown("#### Negative words:")
+                    words2v = neg_word2v(output[0])
+                    words2v.reset_index(inplace = True)
+                    words2v.columns = ["Words", "Scores"]
+                    st.write(words2v)
+                    st.altair_chart(alt.Chart(words2v).mark_bar(color='red',
+                    ).encode(
+                    x='Words',
+                    y='Scores'
+                ))
+                    # st.bar_chart(words2v)
+
+                with c2:
+                    st.markdown("#### Positive words:")
+                    # data_w2v = load_data_w2v()
+                    words2v_pos = pos_word2v(output[0])
+                    words2v_pos.reset_index(inplace = True)
+                    words2v_pos.columns = ["Words", "Scores"]
+                    st.write(words2v_pos)
+                    st.altair_chart(alt.Chart(words2v_pos).mark_bar(color='green',
+                    ).encode(
+                    x='Words',
+                    y='Scores'))
+
+
+
+        if trust_pilot:
+            if url == "None" or url == '':
+                        st.write("missing information, please fill out")
+            # return the st.write that contains the intended message (i.e. please fill in missing info )
+            elif 'https://uk.trustpilot' not in url:
+                        st.write("this is not a Trustpilot file, please try again")
+            else:
+                output = get_data_trustpilot(url, pages = number_of_pages)
+                output[0].to_csv("temp.csv")
+                st.balloons()
+                st.write("Review count: ", output[1])
+                st.write("Average score: ", output[2])
+
+                st.markdown("# Graphs and Review Data 📊")
+                st.sidebar.markdown("# Page 3: 📊")
+
+                counter = pred(output[0])
+                st.markdown("#### Negative vs. Positive Reviews:")
+                counter_df = pd.DataFrame.from_dict(counter, orient ='index')
+                print(counter_df)
+                st.bar_chart(counter_df)
+
+
+                # data = load_data_wordcloud(counter_df)
+                full_text = ' '.join(output[0]['text'])
+                wordcloud = WordCloud().generate(full_text)
+
+                # Display the generated image:
+                st.markdown("#### Mariami's picture thingy:")
+                plt.imshow(wordcloud, interpolation='bilinear')
+                plt.axis("off")
+                plt.show()
+                st.pyplot()
+
+                # cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
+                # plt.imshow(cloud_no_stopword, interpolation='bilinear')
+                # plt.axis('off')
+                # plt.show()
+
+                c1,c2= st.columns(2)
+                with c1:
+                    st.markdown("#### Negative words:")
+                    #data_w2v = load_data_w2v()
+                    words2v = neg_word2v(output[0])
+                    words2v.reset_index(inplace = True)
+                    words2v.columns = ["Words", "Scores"]
+                    st.write(words2v)
+                    st.altair_chart(alt.Chart(words2v).mark_bar(color='red',
+                    ).encode(
+                    x='Words',
+                    y='Scores'
+                ))
+                    # st.bar_chart(words2v)
+
+
+                with c2:
+                    st.markdown("#### Positive words:")
+                    #data_w2v = load_data_w2v()
+                    words2v_pos = pos_word2v(output[0])
+                    words2v_pos.reset_index(inplace = True)
+                    words2v_pos.columns = ["Words", "Scores"]
+                    st.write(words2v_pos)
+                    st.altair_chart(alt.Chart(words2v_pos).mark_bar(color='green',
+                    ).encode(
+                    x='Words',
+                    y='Scores'))
 
 
 st.write('---')
 
-st.markdown("#### Step 3:")
+st.markdown("### Step 3 (Optional):")
 
 c1,c2,c3 = st.columns(3)
 with c2:
@@ -166,27 +301,6 @@ with c2:
         </style>
         """
 
-# if url is None:
-#     "You missed out information"
-# elif form is None:
-#     return "You missed out information"
-# else:
-#     return x
-
-
-# source = pd.DataFrame({
-#         "Price ($)": [10, 15, 20],
-#         "Month": ["January", "February", "March"]
-#       })
-# st.write("---")
-# bar_chart = alt.Chart(source).mark_bar().encode(
-#     x="sum(Price ($)):Q",
-#     y=alt.Y("Month:N", sort="-x")
-#     )
-
-# st.altair_chart(bar_chart, use_container_width=True)
-
-
 # if submit:
 #     list_values = [int(i) for i in values]
 #     if sum(list_values) == 0:
@@ -203,47 +317,25 @@ with c2:
 #     dataset.iloc[0]['deaths'],dataset.iloc[0]['active'])})
 #     return total_dataframe
 
-# state_total = get_total_dataframe(state_data)
-
-# if st.sidebar.checkbox("Show Analysis by State", True, key=2):
-#     st.markdown("## **State level analysis**")
-#     st.markdown("### Overall Confirmed, Active, Recovered and " +
-#     "Deceased cases in %s yet" % (select))
-#     if not st.checkbox('Hide Graph', False, key=1):
-#         state_total_graph = px.bar(
-#         state_total,
-#         x='Status',
-#         y='Number of cases',
-#         labels={'Number of cases':'Number of cases in %s' % (select)},
-#         color='Status')
-#         st.plotly_chart(state_total_graph)
+# state_total = get_total_dataframe(state_data
 
 
+# counter = dict(pred())
 
 
-# with st.form(key='params_for_api'):
+# if submit:
 
-#     pickup_date = st.date_input('pickup datetime', value=datetime.datetime(2012, 10, 6, 12, 10, 20))
-#     pickup_time = st.time_input('pickup datetime', value=datetime.datetime(2012, 10, 6, 12, 10, 20))
-#     pickup_datetime = f'{pickup_date} {pickup_time}'
-#     pickup_longitude = st.number_input('pickup longitude', value=40.7614327)
-#     pickup_latitude = st.number_input('pickup latitude', value=-73.9798156)
-#     dropoff_longitude = st.number_input('dropoff longitude', value=40.6413111)
-#     dropoff_latitude = st.number_input('dropoff latitude', value=-73.7803331)
-#     passenger_count = st.number_input('passenger_count', min_value=1, max_value=8, step=1, value=1)
+#     st.markdown("# Graphs and Review Data 📊")
+#     st.sidebar.markdown("# Page 3: 📊")
 
-#     st.form_submit_button('Make prediction')
+# counter = dict(pred(df = output[0]))
+output = pd.read_csv("temp.csv")
+counter = pred(output)
 
-# params = dict(
-#     pickup_datetime=pickup_datetime,
-#     pickup_longitude=pickup_longitude,
-#     pickup_latitude=pickup_latitude,
-#     dropoff_longitude=dropoff_longitude,
-#     dropoff_latitude=dropoff_latitude,
-#     passenger_count=passenger_count)
+st.markdown("#### Negative vs. Positive Reviews:")
+counter = pd.DataFrame.from_dict(counter, orient ='index')
+st.bar_chart(counter)
 
-# wagon_cab_api_url = 'https://taxifare.lewagon.ai/predict'
-# response = requests.get(wagon_cab_api_url, params=params)
 
 # prediction = response.json()
 
@@ -266,8 +358,12 @@ words2v_pos = pd.DataFrame.from_dict(data['words2v_pos'])
 st.bar_chart(cnn_model)
 
 wordcloud = WordCloud().generate(words)
+# data = load_data_wordcloud(df = output)
+full_text = ' '.join(output['text'])
+wordcloud = WordCloud().generate(full_text)
 
 # Display the generated image:
+st.markdown("#### Mariami's picture thingy:")
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.show()
@@ -275,11 +371,30 @@ st.pyplot()
 
 c1,c2= st.columns(2)
 with c1:
-    st.write(words2v_neg)
-    st.bar_chart(words2v_neg)
-with c2:
-    st.write(words2v_pos)
-    st.bar_chart(words2v_pos)
+    st.markdown("#### Negative words:")
+    # data_w2v = load_data_w2v(df = output)
+    words2v = neg_word2v(output)
+    words2v.reset_index(inplace = True)
+    words2v.columns = ["Words", "Scores"]
+    st.write(words2v)
+    st.altair_chart(alt.Chart(words2v).mark_bar(color='red',
+    ).encode(
+    x='Words',
+    y='Scores'
+))
+    # st.bar_chart(words2v)
 
-# st.write(absa)
-# st.bar_chart(absa)
+
+
+with c2:
+    st.markdown("#### Positive words:")
+    # data_w2v = load_data_w2v(df = output)
+    words2v_pos = pos_word2v(output)
+    words2v_pos.reset_index(inplace = True)
+    words2v_pos.columns = ["Words", "Scores"]
+    st.write(words2v_pos)
+    st.altair_chart(alt.Chart(words2v_pos).mark_bar(color='green',
+    ).encode(
+    x='Words',
+    y='Scores'))
+os.remove("temp.csv")

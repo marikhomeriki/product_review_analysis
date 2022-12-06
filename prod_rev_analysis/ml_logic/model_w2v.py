@@ -107,8 +107,8 @@ def pos_word2v(df):
     pos_reviews_cleaned = pd.DataFrame(pos_reviews_cleaned)
 
     vectorizer_pos = TfidfVectorizer(ngram_range = (1,2),
-                             min_df=0.01,
-                             max_df = 0.05).fit(pos_reviews_cleaned.text).fit(pos_reviews_cleaned.text)
+                             min_df=0.001,
+                             max_df = 0.5).fit(pos_reviews_cleaned.text).fit(pos_reviews_cleaned.text)
     vectors_pos = pd.DataFrame(vectorizer_pos.transform(pos_reviews_cleaned.text).toarray(),
                        columns = vectorizer_pos.get_feature_names_out())
     sum_tfidf_pos = vectors_pos.sum(axis = 0)
