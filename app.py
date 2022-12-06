@@ -3,8 +3,9 @@ import numpy as np
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 
-st.set_page_config(page_title="My Webpage", page_icon= "tada", layout= "wide")
+st.set_page_config(page_title="Product Review Analysis", page_icon= "tada", layout= "wide")
 
 st.markdown ("""
     <style>
@@ -250,44 +251,35 @@ with c2:
 
 # st.header(f'Fare amount: ${round(pred, 2)}')
 
-
-
 st.markdown("# Graphs and Review Data 📊")
 st.sidebar.markdown("# Page 3: 📊")
 
-data = {}
+# TODO: use environment variables
+data = requests.get("http://localhost:8000/analyze").json()
 
-# st.bar_chart(counter)
+cnn_model = pd.DataFrame.from_dict(data['cnn_model'], orient='index')
+words = data['words']
+words2v_neg = pd.DataFrame.from_dict(data['words2v_neg'])
+words2v_pos = pd.DataFrame.from_dict(data['words2v_pos'])
+absa = pd.DataFrame.from_dict(data['absa'])
 
-# data = load_data_wordcloud()
-# full_text = ' '.join(data['text'])
-# wordcloud = WordCloud().generate(full_text)
+st.bar_chart(cnn_model)
 
-# # Display the generated image:
-# plt.imshow(wordcloud, interpolation='bilinear')
-# plt.axis("off")
-# plt.show()
-# st.pyplot()
+wordcloud = WordCloud().generate(words)
 
+# Display the generated image:
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+st.pyplot()
 
-# # cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
-# # plt.imshow(cloud_no_stopword, interpolation='bilinear')
-# # plt.axis('off')
-# # plt.show()
+c1,c2= st.columns(2)
+with c1:
+    st.write(words2v_neg)
+    st.bar_chart(words2v_neg)
+with c2:
+    st.write(words2v_pos)
+    st.bar_chart(words2v_pos)
 
-# c1,c2= st.columns(2)
-# with c1:
-#     data_w2v = load_data_w2v()
-#     words2v = neg_word2v(data_w2v)
-#     st.write(words2v)
-#     st.bar_chart(words2v)
-# with c2:
-#     data_w2v = load_data_w2v()
-#     words2v_pos = pos_word2v(data_w2v)
-#     st.write(words2v_pos)
-#     st.bar_chart(words2v_pos)
-
-# if st.button('ABSA'):
-#     sent_asp_distribution = get_sent_asps()
-#     st.write(sent_asp_distribution)
-#     st.bar_chart(sent_asp_distribution)
+st.write(absa)
+st.bar_chart(absa)
