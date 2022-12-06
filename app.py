@@ -1,4 +1,3 @@
-import requests
 import streamlit as st
 import numpy as np
 from wordcloud import WordCloud
@@ -49,13 +48,6 @@ with st.container():
         # data_url = base64.b64encode(contents).decode('utf-8-sig')
         # file.close()
         # st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
-
-    with right_col:
-        file = open("/Users/arun._.appulingam/code/ezgif-4-21e05539a6.gif", 'rb')
-        contents = file.read()
-        data_url = base64.b64encode(contents).decode('utf-8-sig')
-        file.close()
-        st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
 
 st.write("---")
 st.markdown("# Introduction 📈")
@@ -111,10 +103,33 @@ form = st.form("form", clear_on_submit=True)
 with form:
     url = st.text_input("**`Give the URL link:`**", None)
 
+
 # path = ''
 # outlet_df = pd.read_csv(path)
 
     number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
+
+    # path = ''
+    # outlet_df = pd.read_csv(path)
+
+    number_of_pages = st.slider("**`Number of Pages:`**", 0, 40, 2, step=1)
+
+    st.markdown("<h2 style='text-align: center;'>Choose One:</h2>",unsafe_allow_html= True)
+    column1,column2,column3 = form.columns(3)
+    with column1:
+        # st.image('/Users/arun._.appulingam/code/rsz_1googleimage.png')
+        google = column1.checkbox('Google')
+
+    with column2:
+        # st.image('/Users/arun._.appulingam/code/rsz_1yelp-image.png')
+        # column2.write(f"`Yelp`")
+        yelp = column2.checkbox('Yelp')
+
+    with column3:
+        # st.image('/Users/arun._.appulingam/code/rsz_602e2fe1d9ced200045a5771.png')
+        # column3.write('')
+        trust_pilot = column3.checkbox('TrustPilot')
+
 
     flag = True
     if (url is not None) and ((not yelp and not trust_pilot)\
@@ -260,6 +275,7 @@ with form:
                     x='Words',
                     y='Scores'))
 
+
 st.write('---')
 
 st.markdown("### Step 3 (Optional):")
@@ -331,12 +347,6 @@ plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.show()
 st.pyplot()
-
-
-# cloud_no_stopword = WordCloud(background_color='black', stopwords=my_stop_words).generate(full_text)
-# plt.imshow(cloud_no_stopword, interpolation='bilinear')
-# plt.axis('off')
-# plt.show()
 
 c1,c2= st.columns(2)
 with c1:
