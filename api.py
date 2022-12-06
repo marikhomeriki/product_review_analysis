@@ -28,14 +28,14 @@ async def analyze():
     words = " ".join(data['text'].to_list())
     words2v_neg = neg_word2v(data_w2v).to_dict()
     words2v_pos = pos_word2v(data_w2v).to_dict()
-    # absa = get_sent_asps().to_dict()
+    absa = get_sent_asps().to_dict()
 
     return {
         'cnn_model': cnn_model,
         'words': words,
         'words2v_neg': words2v_neg,
-        'words2v_pos': words2v_pos
-        # 'absa': absa,
+        'words2v_pos': words2v_pos,
+        'absa': absa
     }
 
 
