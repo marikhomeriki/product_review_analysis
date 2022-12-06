@@ -255,7 +255,7 @@ st.markdown("# Graphs and Review Data 📊")
 st.sidebar.markdown("# Page 3: 📊")
 
 # TODO: use environment variables
-data = requests.get("https://pra-icpdyxu5pq-ew.a.run.app/analyze").json()
+data = requests.get("https://pra-icpdyxu5pq-nw.a.run.app/mock-analyze").json()
 
 cnn_model = pd.DataFrame.from_dict(data['cnn_model'], orient='index')
 words = data['words']
