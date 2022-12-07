@@ -1,4 +1,3 @@
-import requests
 import streamlit as st
 import numpy as np
 from wordcloud import WordCloud
@@ -8,7 +7,9 @@ from prod_rev_analysis.ml_logic.model_w2v import neg_word2v, pos_word2v
 import altair as alt
 import os
 
+
 # from streamlit_lottie import st_lottie
+
 import time
 import datetime
 import requests
@@ -69,11 +70,13 @@ with st.container():
         file.close()
         st.markdown(f'<img src="data:image/gif;base64,{data_url}">',unsafe_allow_html = True)
 
+
 tab1,tab2,tab3,tab4 = st.tabs(["Introduction 📈","Running the Data 😮","Backup Data 🔙"\
     ,"Review on Website🌐"])
 
 with tab1:
     st.markdown("# Introduction 📈")
+
 
     st.header("Main Tasks")
 
@@ -84,6 +87,7 @@ with tab1:
     st.write ("Ankur:")
     st.write ("Mathias:")
     st.write ("Arun: Creating a Sequential and CNN base model, helped clean data, using Streamline to make this website :)")
+
 
 with tab2:
     st.markdown("# Running the Data 😮")
