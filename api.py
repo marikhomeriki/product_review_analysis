@@ -22,6 +22,8 @@ mock_data = {
         "Negative": 1218,
         "Positive": 307
     },
+    'review_count': 5,
+    'average_score': 3.4,
     "words": "A A A B B B C C C C C C C D D D D D",
     "words2v_neg": {
         "Scores": {
@@ -71,8 +73,7 @@ mock_data = {
             "top": 3.274168566918065
         }
     },
-    'review_count': 5,
-    'average_score': 3.4,
+
     "absa": {
         "Positive": {
             "service": 6,
