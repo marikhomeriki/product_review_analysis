@@ -103,9 +103,9 @@ mock_data = {
 @app.get("/analyze")
 async def analyze(source: str = '', url: str = '', pages: int = 1):
     if source == 'Yelp':
-        df_reviews, review_count, average_score = get_data_yelp(url, pages)
+        df_reviews, _, __ = get_data_yelp(url, pages)
     else:
-        df_reviews, review_count, average_score = get_data_trustpilot(url, pages)
+        df_reviews, _, __ = get_data_trustpilot(url, pages)
 
     cnn_data = load_data(df_reviews)
 
@@ -120,10 +120,7 @@ async def analyze(source: str = '', url: str = '', pages: int = 1):
         'words': words,
         'words2v_neg': words2v_neg,
         'words2v_pos': words2v_pos,
-        'absa': absa,
-        'review_count': review_count,
-        'average_score': average_score
-
+        'absa': absa
     }
 
 
