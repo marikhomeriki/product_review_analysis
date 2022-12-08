@@ -7,11 +7,12 @@ import time
 
 
 # variable declaration
-customer_reviews = {}
+# customer_reviews = {}
 
 
 
 def get_data_yelp(url, pages = 2):
+    customer_reviews = {}
 
     # url = "https://www.yelp.co.uk/biz/dishoom-london"
 
