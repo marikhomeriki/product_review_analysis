@@ -17,6 +17,7 @@ def get_data_yelp(url, pages = 2):
     # url = "https://www.yelp.co.uk/biz/dishoom-london"
 
     print("📝Scraping started")
+    print("The url is", url)
     for i in range(0,pages*10,10):
         page = url + f"?start={i}"
         print(f"Scraping yelp: {page}")
