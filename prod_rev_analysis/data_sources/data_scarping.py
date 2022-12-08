@@ -7,12 +7,12 @@ import time
 
 
 # variable declaration
-# customer_reviews = {}
+customer_reviews = {}
 
 
 
 def get_data_yelp(url, pages = 2):
-    customer_reviews = {}
+    # customer_reviews = {}
 
     # url = "https://www.yelp.co.uk/biz/dishoom-london"
 
@@ -41,6 +41,7 @@ def hello_world():
 
 
 def get_data_trustpilot(url, pages = 1):
+    customer_reviews = {}
     print("📝Scraping from trustpilot started")
     for i in range(1, int(pages) + 1):
         page = url + f"?page={i}"
