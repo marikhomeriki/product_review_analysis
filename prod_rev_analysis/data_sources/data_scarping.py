@@ -7,17 +7,11 @@ import time
 
 
 # variable declaration
-customer_reviews = {}
-
-
+# customer_reviews = {}
 
 def get_data_yelp(url, pages = 2):
-    # customer_reviews = {}
-
-    # url = "https://www.yelp.co.uk/biz/dishoom-london"
-
+    customer_reviews = {}
     print("📝Scraping started")
-    print("The url is", url)
     for i in range(0,pages*10,10):
         page = url + f"?start={i}"
         print(f"Scraping yelp: {page}")
@@ -35,10 +29,11 @@ def get_data_yelp(url, pages = 2):
     df_reviews = pd.DataFrame(customer_reviews.items(),columns=['text', 'score'])
     review_count = df_reviews.shape[0]
     average_score = df_reviews.score.mean()
+
+    print('scraping_results:', df_reviews,review_count, average_score)
+
     return df_reviews, review_count, average_score
 
-def hello_world():
-    return "hello world. This is me arun"
 
 
 def get_data_trustpilot(url, pages = 1):
@@ -59,15 +54,3 @@ def get_data_trustpilot(url, pages = 1):
     review_count = df_reviews.shape[0]
     average_score = df_reviews.score.mean()
     return df_reviews, review_count, average_score
-
-# output = get_data_trustpilot("https://uk.trustpilot.com/review/www.hsbc.co.uk")
-# print(output)
-
-# print("DF")
-# print(output[0])
-# print("review count")
-
-# print(output[1])
-# print("average score")
-
-# print(output[2])
